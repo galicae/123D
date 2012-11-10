@@ -144,4 +144,8 @@ public final class AminoAcids {
 	public static String[] reverse = { "A", "C", "D", "E", "F", "G", "H", "I",
 			"K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "Y" };
 
+	public static final char[] REVERSE = { (char) 65, (char) 67, (char) 68,
+			(char) 69, (char) 70, (char) 71, (char) 72, (char) 73, (char) 75,
+			(char) 76, (char) 77, (char) 78, (char) 80, (char) 81, (char) 82,
+			(char) 83, (char) 84, (char) 86, (char) 87, (char) 89 };
 }
