@@ -2,10 +2,16 @@ package gotoh;
 
 public class GotohProfile {
 	private String matrixName, pairfile, seqlibfile;
-	private double gopen, gextend, seqWeight, prefWeight, contWeight;
+	private double gopen, gextend;
 	private String mode, printmatrices, wmode;
 	private boolean check, printali;
 	public double[][] matrix;
+	private double[] gapInsert = { 2.00, 6.63, 6.05 };
+	private double[] gapExtend = { 5.04, 1.66, 2.37 };
+	private double[] seqWeight = { 10.57, 7.74, 11.70 };
+	private double[] prefWeight = { 4.15, 0.06, 0.06 };
+	private double[] localContWeight = { 1.81, 0.05, 0.03 };
+	private double[] globalContWeight = { 1.24, 6.44, 1.25 };
 
 	// defaults!!
 	public GotohProfile() {
@@ -117,28 +123,20 @@ public class GotohProfile {
 		return matrix;
 	}
 
-	public double getSeqWeight() {
-		return seqWeight;
+	public String getSeqlibfile() {
+		return seqlibfile;
 	}
 
-	public void setSeqWeight(double seqWeight) {
-		this.seqWeight = seqWeight;
+	public void setSeqlibfile(String seqlibfile) {
+		this.seqlibfile = seqlibfile;
 	}
 
-	public double getPrefWeight() {
+	public double[] getPrefWeight() {
 		return prefWeight;
 	}
 
-	public void setPrefWeight(double prefWeight) {
+	public void setPrefWeight(double[] prefWeight) {
 		this.prefWeight = prefWeight;
-	}
-
-	public double getContWeight() {
-		return contWeight;
-	}
-
-	public void setContWeight(double contWeight) {
-		this.contWeight = contWeight;
 	}
 
 	public String getWmode() {
@@ -148,6 +146,46 @@ public class GotohProfile {
 	public void setWmode(String wmode) {
 		this.wmode = wmode;
 	}
-	
+
+	public double[] getSeqWeight() {
+		return seqWeight;
+	}
+
+	public void setSeqWeight(double[] seqWeight) {
+		this.seqWeight = seqWeight;
+	}
+
+	public double[] getLocalContWeight() {
+		return localContWeight;
+	}
+
+	public void setLocalContWeight(double[] localContWeight) {
+		this.localContWeight = localContWeight;
+	}
+
+	public double[] getGlobalContWeight() {
+		return globalContWeight;
+	}
+
+	public void setGlobalContWeight(double[] globalContWeight) {
+		this.globalContWeight = globalContWeight;
+	}
+
+	public double[] getGapInsert() {
+		return gapInsert;
+	}
+
+	public void setGapInsert(double[] gapInsert) {
+		this.gapInsert = gapInsert;
+	}
+
+	public double[] getGapExtend() {
+		return gapExtend;
+	}
+
+	public void setGapExtend(double[] gapExtend) {
+		this.gapExtend = gapExtend;
+	}
+
 	
 }

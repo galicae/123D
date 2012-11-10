@@ -148,4 +148,56 @@ public final class AminoAcids {
 			(char) 69, (char) 70, (char) 71, (char) 72, (char) 73, (char) 75,
 			(char) 76, (char) 77, (char) 78, (char) 80, (char) 81, (char) 82,
 			(char) 83, (char) 84, (char) 86, (char) 87, (char) 89 };
+
+	/**
+	 * low quality hack. No time for something better, and I don't want to read the matrices
+	 * @param original
+	 * @return
+	 */
+	public static final int matrixNumbering(int original) {
+		switch (original) {
+		case 0:
+			return 0;
+		case 1:
+			return 4;
+		case 2:
+			return 3;
+		case 3:
+			return 6;
+		case 4:
+			return 13;
+		case 5:
+			return 7;
+		case 6:
+			return 8;
+		case 7:
+			return 9;
+		case 8:
+			return 11;
+		case 9:
+			return 10;
+		case 10:
+			return 12;
+		case 11:
+			return 2;
+		case 12:
+			return 14;
+		case 13:
+			return 5;
+		case 14:
+			return 1;
+		case 15:
+			return 15;
+		case 16:
+			return 16;
+		case 17:
+			return 18;
+		case 18:
+			return 17;
+		case 19:
+			return 19;
+		default:
+			return 20;
+		}
+	}
 }

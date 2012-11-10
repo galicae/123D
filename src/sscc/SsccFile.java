@@ -1,12 +1,15 @@
 package sscc;
+
 public class SsccFile {
-	private int[] sequence, contacts, structure;
+	private int[] sequence, localContacts, globalContacts, structure;
 	private String ID;
 
-	public SsccFile(int[] sequence, int[] contacts, int[] structure, String ID) {
+	public SsccFile(int[] sequence, int[] localContacts, int[] globalContacts,
+			int[] structure, String ID) {
 		super();
 		this.sequence = sequence;
-		this.contacts = contacts;
+		this.localContacts = localContacts;
+		this.globalContacts = globalContacts;
 		this.structure = structure;
 		this.ID = ID;
 	}
@@ -19,12 +22,12 @@ public class SsccFile {
 		this.sequence = sequence;
 	}
 
-	public int[] getContacts() {
-		return contacts;
+	public int[] getLocalContacts() {
+		return localContacts;
 	}
 
-	public void setContacts(int[] contacts) {
-		this.contacts = contacts;
+	public void setLocalContacts(int[] contacts) {
+		this.localContacts = contacts;
 	}
 
 	public int[] getStructure() {
@@ -42,8 +45,13 @@ public class SsccFile {
 	public void setID(String iD) {
 		ID = iD;
 	}
-	
-	
-	
+
+	public int[] getGlobalContacts() {
+		return globalContacts;
+	}
+
+	public void setGlobalContacts(int[] globalContacts) {
+		this.globalContacts = globalContacts;
+	}
 
 }
