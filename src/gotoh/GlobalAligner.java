@@ -1,19 +1,13 @@
 package gotoh;
 
-import static resources.AminoAcids.REVERSE;
-import static resources.AminoAcids.matrixNumbering;
+import static resources.AminoAcids.*;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.LinkedList;
 
 import resources.Matrix;
 import sscc.SsccFile;
 
-public class FreeshiftAligner extends Aligner {
+public class GlobalAligner extends Aligner {
 	private GotohProfile profile;
 	private int[] seq1, seq2, struct2, localConts, globalConts;
 	public double[][] score;
@@ -23,7 +17,7 @@ public class FreeshiftAligner extends Aligner {
 	private LinkedList<int[]> tracebackList;
 	private String seq1ID, seq2ID;
 
-	public FreeshiftAligner(GotohProfile profile, int[] seq1, SsccFile sscc,
+	public GlobalAligner(GotohProfile profile, int[] seq1, SsccFile sscc,
 			String seq1ID) {
 		this.profile = profile;
 		this.seq1 = seq1;
@@ -89,7 +83,7 @@ public class FreeshiftAligner extends Aligner {
 	}
 
 	public void trace(int x, int y) {
-		while (x != 0 && y != 0) {
+		while (x > 0 && y > 0) {
 			if (score[x][y] == ins[x][y]) {
 				// find the x-k,y position where the gap was opened
 				boolean found = false;
@@ -144,37 +138,28 @@ public class FreeshiftAligner extends Aligner {
 
 	public String[] interpretTraceback() {
 		String[] result = new String[2];
-		result[0] = result[1] = "";
+		result[0] = "";
+		result[1] = "";
 		int[] temp = new int[2];
 		int[] prev = new int[2];
-		if (tracebackList.isEmpty()) {
-			prev[0] = (int) max[0];
-			prev[1] = (int) max[1];
-		} else {
+		prev = tracebackList.pop();
+		// global mode
+		while (prev[0] == 0 && prev[1] == 0)
 			prev = tracebackList.pop();
-		}
-		// this element has y=0, so I have to align every x before
-		// prev[0],prev[1] with gaps, or x=0, so the other way round
-		if (prev[0] > prev[1]) {
+		if (prev[0] > prev[1] && prev[1] == 0) {
 			for (int i = 1; i < prev[0]; i++) {
 				result[0] += Character.toString(REVERSE[(char) seq1[i - 1]]);
 				result[1] += "-";
 			}
-		} else {
+		} else if (prev[1] > prev[0] && prev[0] == 0) {
 			for (int i = 1; i < prev[1]; i++) {
 				result[1] += Character.toString(REVERSE[(char) seq2[i - 1]]);
 				result[0] += "-";
 			}
 		}
-		if (!tracebackList.isEmpty()) {
-			temp = tracebackList.pop();
-			result[0] += Character.toString(REVERSE[(char) seq1[temp[0] - 1]]);
-			result[1] += Character.toString(REVERSE[(char) seq2[temp[1] - 1]]);
-		} else {
-			result[0] += Character.toString(REVERSE[(char) seq1[prev[0] - 1]]);
-			result[1] += Character.toString(REVERSE[(char) seq2[prev[1] - 1]]);
-		}
-
+		prev = tracebackList.pop();
+		result[0] += Character.toString(REVERSE[(char) seq1[prev[0] - 1]]);
+		result[1] += Character.toString(REVERSE[(char) seq2[prev[1] - 1]]);
 		while (!tracebackList.isEmpty()) {
 			temp = tracebackList.pop();
 			if (temp[0] == prev[0]) {
@@ -193,21 +178,14 @@ public class FreeshiftAligner extends Aligner {
 			}
 			prev = temp;
 		}
-		// now we are at the end of the freeshift; it remains to recover the
-		// portion of the alignment that is parallel with the y axis
-
-		if (prev[0] < prev[1]) {
-			for (int i = prev[0]; i <= seq1.length; i++) {
-				result[0] += Character.toString(REVERSE[(char) seq1[i - 1]]);
-				result[1] += "-";
-			}
-		} else {
-			for (int i = prev[1]; i <= seq2.length; i++) {
-				result[1] += Character.toString(REVERSE[(char) seq2[i - 1]]);
-				result[0] += "-";
-			}
+		for (int i = prev[0] + 1; i <= seq1.length; i++) {
+			result[0] += Character.toString(REVERSE[(char) seq1[i - 1]]);
+			result[1] += "-";
 		}
-
+		for (int i = prev[1] + 1; i <= seq2.length; i++) {
+			result[1] += Character.toString(REVERSE[(char) seq2[i - 1]]);
+			result[0] += "-";
+		}
 		return result;
 	}
 
@@ -221,51 +199,22 @@ public class FreeshiftAligner extends Aligner {
 		}
 	}
 
-	@Override
 	public GotohAnswer alignPair() {
 		initialize();
 		align();
-
-		for (int i = 0; i < seq1.length; i++) { // check last row for max
-		// System.out.println(score[i][seq2.length]);
-			if (score[i][seq2.length] >= max[2]) {
-				max[0] = i;
-				max[1] = seq2.length;
-				max[2] = score[i][seq2.length];
-			}
-		}
-		// System.out.println("##############");
-
-		for (int i = 0; i < seq2.length; i++) { // check last column for max
-		// System.out.println(score[seq1.length][i]);
-			if (score[seq1.length][i] >= max[2]) {
-				max[0] = seq1.length;
-				max[1] = i;
-				max[2] = score[seq1.length][i];
-			}
-		}
-
-		// System.out.println(max[2]);
-		// try {
-		// FileWriter fstream = new FileWriter("out.html");
-		// BufferedWriter out = new BufferedWriter(fstream);
-		// out.write(printMatriceHtml(score));
-		// out.close();
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		trace((int) max[0] - 1, (int) max[1] - 1);
+		trace(seq1.length - 1, seq2.length - 1);
 		String[] sresult = new String[2];
 		sresult = interpretTraceback();
+		if (sresult[0].startsWith("-") && sresult[1].startsWith("-")) {
+			sresult[0] = sresult[0].substring(1);
+			sresult[1] = sresult[1].substring(1);
+		}
 
 		GotohAnswer result = new GotohAnswer(seq1ID, seq2ID, sresult[0],
-				sresult[1], max[2], profile);
+				sresult[1], score[seq1.length][seq2.length], profile);
 
+		// System.out.println(seq1ID + " " + seq2ID + " " + result.getScore());
 		return result;
-	}
-
-	public double getCheckScore() {
-		return this.checkScore;
 	}
 
 	public String printMatriceHtml(double[][] matrix) {
@@ -304,5 +253,9 @@ public class FreeshiftAligner extends Aligner {
 
 	private static boolean isInEpsilon(double a, double b) {
 		return (a > (b - epsilon)) && (a < (b + epsilon));
+	}
+
+	private double getCheck() {
+		return this.checkScore;
 	}
 }

@@ -1,6 +1,25 @@
 package loader;
 
-import static resources.AminoAcids.*;
+import static resources.AminoAcids.A;
+import static resources.AminoAcids.C;
+import static resources.AminoAcids.D;
+import static resources.AminoAcids.E;
+import static resources.AminoAcids.F;
+import static resources.AminoAcids.G;
+import static resources.AminoAcids.H;
+import static resources.AminoAcids.I;
+import static resources.AminoAcids.K;
+import static resources.AminoAcids.L;
+import static resources.AminoAcids.M;
+import static resources.AminoAcids.N;
+import static resources.AminoAcids.P;
+import static resources.AminoAcids.Q;
+import static resources.AminoAcids.R;
+import static resources.AminoAcids.S;
+import static resources.AminoAcids.T;
+import static resources.AminoAcids.V;
+import static resources.AminoAcids.W;
+import static resources.AminoAcids.Y;
 
 public class Converter {
 	private static final int ALPHA = 0;

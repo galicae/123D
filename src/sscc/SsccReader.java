@@ -9,10 +9,8 @@ import loader.Converter;
 import org.apache.commons.io.FileUtils;
 
 import resources.AminoAcids;
-import PSS.PSSMeasurement;
 
 public class SsccReader {
-	private static final int ALPHA = 0, BETA = 1, OTHER = 2;
 	private String ssccString;
 
 	public SsccReader(String dir) {
@@ -25,7 +23,7 @@ public class SsccReader {
 	 * @throws IOException
 	 */
 	public SsccFile findAndRead() throws IOException {
-		File ssccFile = new File(ssccString + ".sscc");
+		File ssccFile = new File("sscc/" + ssccString + ".sscc");
 		ArrayList<Integer> sequence = new ArrayList<Integer>();
 		StringBuilder structure = new StringBuilder();
 		ArrayList<Integer> localContacts = new ArrayList<Integer>();
