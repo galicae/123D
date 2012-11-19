@@ -39,7 +39,7 @@ public class FreeshiftAligner extends Aligner {
 		tracebackList = new LinkedList<int[]>();
 	}
 
-	public void initialize() {
+	public void initializeF() {
 		score[0][0] = 0;
 		for (int i = 1; i < seq1.length + 1; i++) {
 			score[i][0] = 0;
@@ -56,7 +56,7 @@ public class FreeshiftAligner extends Aligner {
 	/**
 	 * this function aligns the two sequences globally
 	 */
-	public void align() {
+	public void alignF() {
 		for (int x = 1; x <= seq1.length; x++) {
 			for (int y = 1; y <= seq2.length; y++) {
 				double w1 = profile.getGextend()
@@ -223,8 +223,8 @@ public class FreeshiftAligner extends Aligner {
 
 	@Override
 	public GotohAnswer alignPair() {
-		initialize();
-		align();
+		initializeF();
+		alignF();
 
 		for (int i = 0; i < seq1.length; i++) { // check last row for max
 		// System.out.println(score[i][seq2.length]);

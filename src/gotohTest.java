@@ -1,3 +1,4 @@
+import gotoh.FreeshiftDouble;
 import gotoh.GotohAnswer;
 import gotoh.GotohProfile;
 import gotoh.LocalAligner;
@@ -22,7 +23,7 @@ public class gotohTest {
 		int[] seq1 = c.convertSeq(sequ1[1]);
 		SsccReader reader = new SsccReader("1jy3Q00");
 		SsccFile sscc = reader.findAndRead();
-		LocalAligner al = new LocalAligner(prof, seq1, sscc, sequ1[0]);
+		FreeshiftDouble al = new FreeshiftDouble(prof, seq1, sscc, sequ1[0]);
 		GotohAnswer ga = new GotohAnswer();
 		ga = al.alignPair();
 		ga.printAlignment();

@@ -3,5 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="resources/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="resources/jopt-simple-4.3-sources.jar"/>
+	<classpathentry kind="lib" path="resources/jopt-simple-4.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -31,7 +31,7 @@ public class LocalAligner extends Aligner {
 		tracebackList = new LinkedList<int[]>();
 	}
 
-	public void initialize() {
+	public void initializeF() {
 		score[0][0] = 0;
 		for (int i = 1; i < seq1.length + 1; i++) {
 			score[i][0] = 0;
@@ -48,7 +48,7 @@ public class LocalAligner extends Aligner {
 	/**
 	 * this function aligns the two sequences globally
 	 */
-	public void align() {
+	public void alignF() {
 		for (int x = 1; x <= seq1.length; x++) {
 			for (int y = 1; y <= seq2.length; y++) {
 				double w1 = profile.getGextend() + profile.getGopen();
@@ -150,8 +150,8 @@ public class LocalAligner extends Aligner {
 
 	@Override
 	public GotohAnswer alignPair() {
-		initialize();
-		align();
+		initializeF();
+		alignF();
 		trace((int) max[0], (int) max[1]);
 		String[] sresult = new String[2];
 		sresult = interpretTraceback();

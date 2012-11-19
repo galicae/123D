@@ -30,7 +30,7 @@ public class GlobalAligner extends Aligner {
 		tracebackList = new LinkedList<int[]>();
 	}
 
-	public void initialize() {
+	public void initializeF() {
 		score[0][0] = 0;
 		for (int i = 1; i < seq1.length + 1; i++) {
 			score[i][0] = profile.getGextend() * i + profile.getGopen();
@@ -46,7 +46,7 @@ public class GlobalAligner extends Aligner {
 	/**
 	 * this function aligns the two sequences globally
 	 */
-	public void align() {
+	public void alignF() {
 		for (int x = 1; x <= seq1.length; x++) {
 			for (int y = 1; y <= seq2.length; y++) {
 				double w1 = profile.getGopen() + profile.getGextend();
@@ -188,8 +188,8 @@ public class GlobalAligner extends Aligner {
 	}
 
 	public GotohAnswer alignPair() {
-		initialize();
-		align();
+		initializeF();
+		alignF();
 		trace(seq1.length - 1, seq2.length - 1);
 		String[] sresult = new String[2];
 		// while (!tracebackList.isEmpty()) {

@@ -12,14 +12,14 @@ public abstract class Aligner {
 	 * are all set to 0; for a global alignment one needs to apply the gap
 	 * function.
 	 */
-	public void initialize() {
+	public void initializeF() {
 		
 	}
 
 	/**
 	 * this function aligns the two sequences
 	 */
-	public void align() {
+	public void alignF() {
 		
 	}
 
