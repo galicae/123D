@@ -14,28 +14,21 @@ import resources.Matrix;
 import sscc.SsccFile;
 
 public class FreeshiftAligner extends Aligner {
-	private GotohProfile profile;
-	private int[] seq1, seq2, struct2, localConts, globalConts;
-	public double[][] score;
-	private double[][] ins, del;
-	private double checkScore = 0;
-	double[] max = { 0, 0, 0 };
-	private LinkedList<int[]> tracebackList;
-	private String seq1ID, seq2ID;
 
 	public FreeshiftAligner(GotohProfile profile, int[] seq1, SsccFile sscc,
 			String seq1ID) {
-		this.profile = profile;
-		this.seq1 = seq1;
-		this.seq2 = sscc.getSequence();
-		this.struct2 = sscc.getStructure();
-		this.seq1ID = seq1ID;
-		this.seq2ID = sscc.getID();
-		this.localConts = sscc.getLocalContacts();
-		this.globalConts = sscc.getGlobalContacts();
-		this.score = new double[seq1.length + 1][seq2.length + 1];
-		this.ins = new double[seq1.length + 1][seq2.length + 1];
-		this.del = new double[seq1.length + 1][seq2.length + 1];
+		super.profile = profile;
+		super.profile =  profile;
+		super.seq1 = seq1;
+		super.seq2 = sscc.getSequence();
+		super.struct2 = sscc.getStructure();
+		super.seq1ID = seq1ID;
+		super.seq2ID = sscc.getID();
+		super.localConts = sscc.getLocalContacts();
+		super.globalConts = sscc.getGlobalContacts();
+		super.score = new double[seq1.length + 1][seq2.length + 1];
+		super.ins = new double[seq1.length + 1][seq2.length + 1];
+		super.del = new double[seq1.length + 1][seq2.length + 1];
 		tracebackList = new LinkedList<int[]>();
 	}
 
@@ -54,7 +47,7 @@ public class FreeshiftAligner extends Aligner {
 	}
 
 	/**
-	 * this function aligns the two sequences globally
+	 * super function aligns the two sequences globally
 	 */
 	public void alignF() {
 		for (int x = 1; x <= seq1.length; x++) {
@@ -153,7 +146,7 @@ public class FreeshiftAligner extends Aligner {
 		} else {
 			prev = tracebackList.pop();
 		}
-		// this element has y=0, so I have to align every x before
+		// super element has y=0, so I have to align every x before
 		// prev[0],prev[1] with gaps, or x=0, so the other way round
 		if (prev[0] > prev[1]) {
 			for (int i = 1; i < prev[0]; i++) {
@@ -265,7 +258,7 @@ public class FreeshiftAligner extends Aligner {
 	}
 
 	public double getCheckScore() {
-		return this.checkScore;
+		return super.checkScore;
 	}
 
 	public String printMatriceHtml(double[][] matrix) {

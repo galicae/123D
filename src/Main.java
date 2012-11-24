@@ -1,3 +1,4 @@
+import gotoh.Aligner;
 import gotoh.FreeshiftAligner;
 import gotoh.GlobalAligner;
 import gotoh.GotohAnswer;
@@ -10,7 +11,6 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import loader.Converter;
 import loader.JLoader;
-import resources.Matrix;
 import sscc.SsccFile;
 import sscc.SsccReader;
 
@@ -103,27 +103,22 @@ public class Main {
 			SsccReader reader = new SsccReader(sequ2[0]);
 			SsccFile sscc = reader.findAndRead();
 			int[] seq1 = c.convertSeq(sequ1[1]);
+			Aligner al = new Aligner();
 
 			if (prof.getMode().equals("global")) {
-				GlobalAligner al = new GlobalAligner(prof, seq1, sscc, sequ1[0]);
-				GotohAnswer ga = new GotohAnswer();
-				ga = al.alignPair();
-				ga.printAlignment();
+				al = new GlobalAligner(prof, seq1, sscc, sequ1[0]);
 			} else if (prof.getMode().equals("local")) {
-				LocalAligner al = new LocalAligner(prof, seq1, sscc, sequ1[0]);
-				GotohAnswer ga = new GotohAnswer();
-				ga = al.alignPair();
-				ga.printAlignment();
+				al = new LocalAligner(prof, seq1, sscc, sequ1[0]);
 			} else {
-				FreeshiftAligner al = new FreeshiftAligner(prof, seq1, sscc,
-						sequ1[0]);
-				GotohAnswer ga = new GotohAnswer();
-				ga = al.alignPair();
-				ga.printAlignment();
-				if (prof.isCheck()) {
-					if (ga.getScore() != al.getCheckScore()) {
-						System.out.println("#check false");
-					}
+				al = new FreeshiftAligner(prof, seq1, sscc, sequ1[0]);
+			}
+			GotohAnswer ga = new GotohAnswer();
+			ga = al.alignPair();
+			al.printMatrices();
+			ga.printAlignment();
+			if (prof.isCheck()) {
+				if (ga.getScore() != al.getCheckScore()) {
+					System.out.println("#check false");
 				}
 			}
 

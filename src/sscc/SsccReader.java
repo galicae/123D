@@ -1,13 +1,15 @@
 package sscc;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import loader.Converter;
-
-import org.apache.commons.io.FileUtils;
-
 import resources.AminoAcids;
 
 public class SsccReader {
@@ -28,7 +30,19 @@ public class SsccReader {
 		StringBuilder structure = new StringBuilder();
 		ArrayList<Integer> localContacts = new ArrayList<Integer>();
 		ArrayList<Integer> globalContacts = new ArrayList<Integer>();
-		for (String line : FileUtils.readLines(ssccFile)) {
+		
+		FileInputStream fstream = new FileInputStream(ssccFile);
+		DataInputStream in = new DataInputStream(fstream);
+		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		String strLine;
+		LinkedList<String> ssccLines = new LinkedList<String>();
+		
+		while ((strLine = br.readLine()) != null) {
+			ssccLines.add(strLine);
+		}
+		in.close();
+		
+		for (String line : ssccLines) {
 			String[] lineArray = line.split("\\s+");
 			int seq = AminoAcids.getIntRepresentation(lineArray[0]);
 			char struc = lineArray[1].charAt(0);
